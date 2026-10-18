@@ -1330,6 +1330,17 @@ if features['vulkan'] and features['x11']
      sources += files('video/out/vulkan/context_xlib.c')
 endif
 
+# Vulkan through MoltenVK on a CAMetalLayer the embedding app passes as --wid: Apple platforms without cocoa (iOS, tvOS).
+moltenvk = get_option('moltenvk').require(
+    features['vulkan'] and darwin and not features['cocoa'],
+    error_message: 'vulkan or a darwin host without cocoa was not found!',
+)
+features += {'moltenvk': moltenvk.allowed()}
+if features['moltenvk']
+    dependencies += dependency('appleframeworks', modules: ['Foundation', 'QuartzCore'])
+    sources += files('video/out/vulkan/context_moltenvk.m')
+endif
+
 features += {'vk-khr-display': vulkan.type_name() == 'internal' or
                                cc.has_function('vkCreateDisplayPlaneSurfaceKHR', prefix: '#include <vulkan/vulkan_core.h>',
                                                dependencies: [vulkan])}

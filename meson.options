@@ -89,6 +89,7 @@ option('vaapi-wayland', type: 'feature', value: 'auto', description: 'VAAPI (Way
 option('vaapi-win32', type: 'feature', value: 'auto', description: 'VAAPI (Windows support)')
 option('vaapi-x11', type: 'feature', value: 'auto', description: 'VAAPI (X11 support)')
 option('vulkan', type: 'feature', value: 'auto', description: 'Vulkan context support')
+option('moltenvk', type: 'feature', value: 'auto', description: 'Vulkan context on an app-provided CAMetalLayer (iOS/tvOS)')
 option('wayland', type: 'feature', value: 'auto', description: 'Wayland')
 option('x11', type: 'feature', value: 'auto', description: 'X11')
 option('xv', type: 'feature', value: 'auto', description: 'Xv video output')

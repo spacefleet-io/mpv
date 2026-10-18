@@ -50,6 +50,7 @@ extern const struct ra_ctx_fns ra_ctx_vulkan_xlib;
 extern const struct ra_ctx_fns ra_ctx_vulkan_android;
 extern const struct ra_ctx_fns ra_ctx_vulkan_display;
 extern const struct ra_ctx_fns ra_ctx_vulkan_mac;
+extern const struct ra_ctx_fns ra_ctx_vulkan_moltenvk;
 
 /* Direct3D 11 */
 extern const struct ra_ctx_fns ra_ctx_d3d11;
@@ -95,6 +96,9 @@ static const struct ra_ctx_fns *const contexts[] = {
 #endif
 #if HAVE_COCOA && HAVE_SWIFT
     &ra_ctx_vulkan_mac,
+#endif
+#if HAVE_MOLTENVK
+    &ra_ctx_vulkan_moltenvk,
 #endif
 #endif
 
