@@ -140,13 +140,22 @@ error:
 
 // Resizes the swapchain to the layer's current pixel size. A layer that is not laid out yet (zero size) keeps the
 // old swapchain: its first real bounds wake the VO and the next event check resizes.
+//
+// vo.c resets vo->dwidth/dheight to the video's display size on every reconfig (each new file), and only
+// ra_vk_ctx_resize sets them back to the surface size. So when the swapchain is kept, the kept size must still be
+// handed back, or the next file is drawn at its native pixel size in the layer's corner until the layer resizes.
 static bool moltenvk_reconfig(struct ra_ctx *ctx)
 {
     struct priv *p = ctx->priv;
     int w, h;
     layer_pixel_size(p->layer, &w, &h);
-    if (w <= 0 || h <= 0 || (w == p->width && h == p->height))
+    if (w <= 0 || h <= 0 || (w == p->width && h == p->height)) {
+        if (p->width > 0 && p->height > 0) {
+            ctx->vo->dwidth = p->width;
+            ctx->vo->dheight = p->height;
+        }
         return true;
+    }
     p->width = w;
     p->height = h;
     return ra_vk_ctx_resize(ctx, w, h);
